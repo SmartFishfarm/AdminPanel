@@ -1,0 +1,22 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Management'" [icon]="'fa-building'"></app-page-header>
+  <div class="page-header">
+      <h1>Company groups</h1>
+      <hr>
+  </div>
+  <div class="row">
+      <!-- /.col-sm-4 -->
+      <div class="col-xl-6">
+          <div class="list-group">
+            <a *ngFor="let company of companies" class="list-group-item" [routerLink]="['/management/details', company.id]" [routerLinkActive]="['router-link-active']">
+                <div class="input-group-prepend">
+                    <img class="img-thumbnail" src="assets/images/factory.png" width="50" alt="">
+                    &nbsp;&nbsp;
+                    <h5 class="list-group-item-text">{{company.company}}</h5>
+                    
+                </div>
+            </a>
+          </div>
+      </div>
+  </div>
+</div>

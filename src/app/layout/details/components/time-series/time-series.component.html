@@ -1,0 +1,18 @@
+<select type="text" [formControl]="selected">
+    <option label="-- 계측기 선택 --"></option>
+    <option *ngFor="let analyzer of analyzers" [value]="analyzer.serial_code + '_' + analyzer.num">{{ analyzer.name_tag }}</option>
+</select>&nbsp;
+<button type="button" class="btn btn-primary" (click)="updateTimeSeries()">확인</button>
+
+<ngx-datatable
+  class="material"
+  [headerHeight]="50"
+  [limit]="20"
+  [sortType]="'multi'"
+  [columnMode]="'standard'"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [scrollbarH]="true"
+  [rows]="rows"
+  [columns]="columns">
+</ngx-datatable>

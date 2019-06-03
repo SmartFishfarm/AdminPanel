@@ -1,0 +1,307 @@
+<div class="list-group">
+    <div class="list-group-item table-responsive">
+        <h4 class="list-group-item-heading">회사정보</h4>
+        <div class="list-group-item-text">
+          <p align="right">
+              <button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1"
+              [attr.aria-expanded]="!isCollapsed1" aria-controls="collapseCompany">
+              {{isCollapsed1 ? '펼치기': '감추기'}}
+            </button>
+          </p>
+        </div>
+        <div id="collapseCompany" [ngbCollapse]="isCollapsed1">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>회사명</th>
+                      <th>주소</th>
+                      <th>위도</th>
+                      <th>경도</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{company.company}}</td>
+                  <td>{{company.address}}</td>
+                  <td>{{company.lat}}</td>
+                  <td>{{company.lng}}</td>
+                  <td>
+                      <i class="fa fa-edit" style="zoom:1.5;" (click)="open(editCompany)"></i>
+                      <ng-template #editCompany let-modal>
+                          <div class="modal-header">
+                              <h4 class="modal-title">회사수정</h4>
+                          </div>
+                          <form role="form" [formGroup]="editForm" (ngSubmit)="onEdit(company.id)">
+                            <div class="modal-body">
+                                <label>회사이름</label>
+                                <input class="form-control" formControlName="company" [value]="company.company" placeholder="회사명 입력">
+                                <label>주소</label>
+                                <input class="form-control" formControlName="address" [value]="company.address" placeholder="주소입력">
+                                <label>위도</label>
+                                <input class="form-control" formControlName="latitude" [value]="company.lat" placeholder="위도 좌표입력">
+                                <label>경도</label>
+                                <input class="form-control" formControlName="longitude" [value]="company.lng" placeholder="경도 좌표입력">                            
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">제출</button>
+                                <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                            </div>
+                          </form>
+                      </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">채널정보</h4>
+        <div class="list-group-item-text"> 
+          <p align="right">
+              <button type="button" class="btn btn-outline-primary" (click)="channelList()"
+              [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseChannel">
+              {{isCollapsed2 ? '펼치기': '감추기'}}
+            </button>
+          </p>
+        </div>
+        <div id="collapseChannel" [ngbCollapse]="isCollapsed2">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th width="10%"></th>
+                      <th>채널번호</th>
+                      <th>채널이름</th>
+                      <th width="10%"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let channel of channels">
+                  <td>
+                    <i class="fa fa-edit" style="zoom:1.5;" (click)="open(editChannel)"></i>
+                    <ng-template #editChannel let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">채널수정</h4>
+                        </div>
+                        <form role="form" [formGroup]="editChannelForm" (ngSubmit)="onChannelEdit(channel.id)">
+                            <div class="modal-body">
+                                <label>채널번호</label>
+                                <input class="form-control" [value]="channel.ch_num" [disabled]="true">
+                                <label>채널이름</label>
+                                <input class="form-control" formControlName="ch_name" [value]="channel.ch_name" placeholder="이름입력">                         
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">제출</button>
+                                <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                            </div>
+                        </form>
+                    </ng-template>
+                  </td>
+                  <td>{{ channel.ch_num }}</td>
+                  <td>{{ channel.ch_name }}</td>
+                  <td>
+                      
+                      <i class="fa fa-trash" style="zoom:1.5;" (click)="open(deleteChannel)"></i>
+                      <ng-template #deleteChannel let-modal>
+                          <div class="modal-header">
+                              <h4 class="modal-title">채널 삭제</h4>
+                          </div>
+                          <div class="modal-body">
+                              <p>정말로 <b>{{channel.ch_name}}</b> 채널을 삭제하시겠습니까?</p>
+                              <p><b>삭제시 복원불가</b></p>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-primary" (click)="onDeleteChannel(channel.id)">확인</button>
+                              <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                          </div>
+                      </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">측정정보</h4>
+        <div class="list-group-item-text">
+          
+          <p align="right">
+              <button type="button" class="btn btn-outline-primary" (click)="analyzerList()"
+              [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseAnalyzer">
+              {{isCollapsed3 ? '펼치기': '감추기'}}
+            </button>
+          </p>
+        </div>
+        <div id="collapseAnalyzer" [ngbCollapse]="isCollapsed3">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th width="10%"></th>
+                      <th>시리얼코드</th>
+                      <th>번호</th>
+                      <th>측정명</th>
+                      <th width="10%"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let analyzer of analyzers">
+                  <td>
+                    <i class="fa fa-edit" style="zoom:1.5;" (click)="open(editAnalyzer)"></i>
+                    <ng-template #editAnalyzer let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">계측기 수정</h4>
+                        </div>
+                        <form role="form" [formGroup]="editAnalyzerForm" (ngSubmit)="onAnalyzerEdit(analyzer.id)">
+                            <div class="modal-body">
+                                <label>시리얼코드</label>
+                                <input class="form-control" [value]="analyzer.serial_code" [disabled]="true">
+                                <label>번호</label>
+                                <input class="form-control" [value]="analyzer.num" [disabled]="true">                         
+                                <label>측정명</label>
+                                <input class="form-control" formControlName="name_tag" [value]="analyzer.name_tag" placeholder="이름입력">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">제출</button>
+                                <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                            </div>
+                        </form>
+                    </ng-template>
+                  </td>
+                  <td>{{ analyzer.serial_code }}</td>
+                  <td>{{ analyzer.num }}번</td>
+                  <td>{{ analyzer.name_tag }}</td>
+                  <td>
+                    <i class="fa fa-trash" style="zoom:1.5;" (click)="open(deleteAnalyzer)"></i>
+                    <ng-template #deleteAnalyzer let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">계측기 삭제</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>정말로 <b>{{analyzer.name_tag}}</b> 계측기를 삭제하시겠습니까?</p>
+                            <p><b>삭제시 복원불가</b></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" (click)="onDeleteAnalyzer(analyzer.id)">확인</button>
+                            <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                        </div>
+                    </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">일지정보</h4>
+        <div class="list-group-item-text">
+          
+          <p align="right">
+              <button type="button" class="btn btn-outline-primary" (click)="scheduleList()"
+              [attr.aria-expanded]="!isCollapsed4" aria-controls="collapseSchedule">
+              {{isCollapsed4 ? '펼치기': '감추기'}}
+            </button>
+          </p>
+        </div>
+        <div id="collapseSchedule" [ngbCollapse]="isCollapsed4">
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th width="10%"></th>
+                      <th>측정명</th>
+                      <th>설치일자</th>
+                      <th>교체주기</th>
+                      <th>교정주기</th>
+                      <th width="10%"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let schedule of schedules">
+                  <td>
+                    <i class="fa fa-edit fa-2x" (click)="open(editSchedule)"></i>
+                    <ng-template #editSchedule let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">일지 수정</h4>
+                        </div>
+                        <form role="form" [formGroup]="editScheduleForm" (ngSubmit)="onScheduleEdit(schedule.sensor_id)">
+                            <div class="modal-body">
+                                <label>측정명</label>
+                                <input class="form-control" [value]="schedule.name_tag" [disabled]="true">
+                                <label>교체주기</label>
+                                <select class="form-control" formControlName="rep_term" [value]="schedule.rep_term">
+                                    <option label="-- 기간선택 --"></option>
+                                    <option *ngFor="let month of months" [value]="month">{{ month }}개월</option>
+                                </select>
+                                <label>교정주기</label>
+                                <select class="form-control" formControlName="cor_term" [value]="schedule.cor_term">
+                                    <option label="-- 기간선택 --"></option>
+                                    <option *ngFor="let month of months" [value]="month">{{ month }}개월</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">제출</button>
+                                <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                            </div>
+                        </form>
+                    </ng-template>
+                  </td>
+                  <td>{{ schedule.name_tag }}</td>
+                  <td>{{ schedule.rel_date }}</td>
+                  <td>{{ schedule.rep_term }}개월</td>
+                  <td>{{ schedule.cor_term }}개월</td>
+                  <td>
+                    <i class="fa fa-trash fa-2x" (click)="open(deleteSchedule)"></i>
+                    <ng-template #deleteSchedule let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">일자 삭제</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>정말로 <b>{{schedule.name_tag}}</b> 일자를 삭제하시겠습니까?</p>
+                            <p><b>삭제시 복원불가</b></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" (click)="onDeleteSchedule(schedule.sensor_id)">확인</button>
+                            <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                        </div>
+                    </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">고급</h4>
+        <div class="list-group-item-text">
+          
+          <p align="right">
+            <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5"
+              [attr.aria-expanded]="!isCollapsed5" aria-controls="collapseAdvanced">
+              {{isCollapsed5 ? '펼치기': '감추기'}}
+            </button>
+          </p>
+        </div>
+        <div id="collapseAdvanced" [ngbCollapse]="isCollapsed5">
+            <div class="card">
+                <div class="card-header">
+                  회사 삭제
+                </div>
+                <div class="card-body">
+                    제거된 회사 복원 할 수 없습니다<br /><br />
+                  <button type="button" class="btn btn-sm btn-danger" (click)="open(content)">삭제</button>
+                  <ng-template #content let-modal>
+                      <div class="modal-header">
+                          <h4 class="modal-title">회사 삭제</h4>
+                      </div>
+                      <div class="modal-body">
+                          <p>정말로 회사를 삭제하시겠습니까?</p>
+                          <p><b>삭제시 복원불가</b></p>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click)="onDeleteCompany()">확인</button>
+                          <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                      </div>
+                  </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

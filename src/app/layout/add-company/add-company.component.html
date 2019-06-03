@@ -1,0 +1,30 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Add Company'" [icon]="'fa-edit'"></app-page-header>
+
+  <div class="row">
+      <div class="col-lg-6">
+          <form role="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <fieldset class="form-group">
+                  <label>회사명</label>
+                  <input class="form-control" formControlName="company" placeholder="회사입력">
+                  <label>주소(선택)</label>
+                  <input class="form-control" formControlName="address" placeholder="주소입력">
+              </fieldset>
+              <button type="button" class="btn btn-primary" (click)="open(content)" [disabled]="!registerForm.valid">제출</button>
+
+              <ng-template #content let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title">회사 추가</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>양어장을 추가하시겠습니까?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" (click)="onSubmit()">확인</button>
+                        <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                    </div>
+                </ng-template>
+          </form>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="title" [icon]="'fa-edit'"></app-page-header>
+    <ngb-tabset class="nav-fill" [destroyOnHide]="false">
+        <ngb-tab id="tab1" title="설정">
+            <ng-template ngbTabContent>
+                <app-information></app-information>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab2" title="실시간">
+            <ng-template ngbTabContent>
+                <app-realtime></app-realtime>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab3" title="시간자료">
+            <ng-template ngbTabContent >
+                <app-time-series></app-time-series>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>

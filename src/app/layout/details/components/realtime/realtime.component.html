@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-xl-12 text-xs-center" *ngFor="let sensors of realtimes">
+        <div class="card mb-3">
+            <div class="card-header">{{sensors[0]?.ch_name}}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-2 text-xs-center" *ngFor="let sensor of sensors">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <label>{{sensor.name_tag}}</label>
+                                <label>{{sensor.serial_code}}_{{sensor.num}}</label>
+                                <ngx-gauge [type]="'arch'"
+                                    [size]="100"
+                                    [max]="sensor.range_max"
+                                    [min]="sensor.range_min"
+                                    [value]="sensor.value"
+                                    [label]="sensor.name_tag" 
+                                    [animate]="false" 
+                                    [append]="sensor.unit">
+                                </ngx-gauge>
+                                <br />
+
+
+                                <label>온도: {{ sensor.temp }}°C</label><br />
+                                
+                                <!--
+                                <label>업데이트: {{sensor.timestamp | timestampToDate}}</label><br />
+                                -->
+                                <label>업데이트: {{ sensor.timestamp }}</label><br />
+                                
+                                <ng-container [ngSwitch]="sensor.state">
+                                    <div *ngSwitchCase="00">
+                                        <label color="success"><b>{{MSG_OK}}</b></label>
+                                    </div>
+                                    <div *ngSwitchCase="02">
+                                        <label color="danger"><b>{{MSG_NETWORK_ERROR}}</b></label>
+                                    </div>
+                                    <div *ngSwitchCase="03">
+                                        <label color="warning"><b>{{MSG_CORRECTION}}</b></label>
+                                    </div>
+                                    <div *ngSwitchCase="04">
+                                        <label color="warning"><b>{{MSG_REPLACE}}</b></label>
+                                    </div>
+                                    <div *ngSwitchCase="06">
+                                        <label color="warning"><b>{{MSG_TROUBLE}}</b></label>
+                                    </div>
+                                    <div *ngSwitchCase="07">
+                                        <label color="warning"><b>{{MSG_CLEAN}}</b></label>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <label></label>
+                                    </div>
+                                </ng-container>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

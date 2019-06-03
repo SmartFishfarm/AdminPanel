@@ -1,0 +1,61 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'TypeInfo'" [icon]="'fa-table'"></app-page-header>
+    
+
+    <div class="row">
+      <div class="col col-xl-12 col-lg-12">
+        <div class="card mb-3">
+          <div class="card-header">            
+              <input class="form-control" type="text" 
+              placeholder="센서타입 검색.." autocomplete="on" [(ngModel)]="searchText.type">
+          </div>
+
+            <div class="card-body table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                  <tr>
+                      <th>센서타입</th>
+                      <th>단위</th>
+                      <th>최소범위</th>
+                      <th>최대범위</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let sensor of sensors | filterBy: searchText">
+                        <td>{{sensor.type}}</td>
+                        <td>{{sensor.unit}}</td>
+                        <td>{{sensor.range_min}}</td>
+                        <td>{{sensor.range_max}}</td>
+                        <td>
+                            <i class="fa fa-edit" style="zoom:1.5;" (click)="open(editTypeInfo)"></i>
+                            <ng-template #editTypeInfo let-modal>
+                                <div class="modal-header">
+                                    <h4 class="modal-title">회사수정</h4>
+                                </div>
+                                <form role="form" [formGroup]="editForm" (ngSubmit)="onEdit(sensor.id)">
+                                  <div class="modal-body">
+                                      <label>센서타입</label>
+                                      <input class="form-control" [value]="sensor.type" [disabled]="true">
+                                      <label>단위</label>
+                                      <input class="form-control" [value]="sensor.unit" [disabled]="true">
+                                      <label>최소범위</label>
+                                      <input class="form-control" formControlName="min" [(ngModel)]="sensor.range_min" placeholder="최소범위">
+                                      <label>최대범위</label>
+                                      <input class="form-control" formControlName="max" [(ngModel)]="sensor.range_max" placeholder="최소범위">                            
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="submit" class="btn btn-primary">제출</button>
+                                      <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                                  </div>
+                                </form>
+                            </ng-template>
+                        </td>
+                    </tr>
+                  </tbody>
+              </table>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

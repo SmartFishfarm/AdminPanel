@@ -1,0 +1,72 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+            <input class="form-control" type="text" 
+            placeholder="사용자 검색..." autocomplete="on" [(ngModel)]="searchText">
+        </div>
+          <div class="card-body table-responsive">
+            
+            <form>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>유저아이디</th>
+                    <th>이메일</th>
+                    <th>상호명</th>
+                    <th>등급</th>
+                    <th>인증상태</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of users | filter:searchText">
+                    <th scope="row">{{user.id}}</th>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>
+                      {{user.company}}
+                    </td>
+                    <td>{{user.admin ? '관리자' : '사용자'}}</td>
+                    <td>
+                    <select
+                      (change)="updateValue($event, user.id)" [value]="user.verify">
+                          <option value="0">N</option>
+                          <option value="1">Y</option>
+                    </select>
+                    </td>
+                    <td>
+                      <i class="fa fa-trash" (click)="open(content)"></i>
+                      <ng-template #content let-modal>
+                          <div class="modal-header">
+                              <h4 class="modal-title">사용자 삭제</h4>
+                          </div>
+                          <div class="modal-body">
+                              <p>사용자를 삭제하시겠습니까?</p>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-primary" (click)="onDelete(user.id)">확인</button>
+                              <button type="button" class="btn btn-default" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                          </div>
+                      </ng-template>
+
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

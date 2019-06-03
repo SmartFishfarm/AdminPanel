@@ -1,0 +1,15 @@
+
+                <button type=[type] class="btn btn-primary" (click)="open(content)">Large modal</button>
+                <ng-template #content let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{title}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{body}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary" (click)="confirm()">확인</button>
+                        <button type="button" class="btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">취소</button>
+                      </div>
+                </ng-template>
+
