@@ -1,8 +1,10 @@
 import { ManageService } from './../../shared/services/manage.service';
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import {} from 'googlemaps';
+
+declare var daum: any;
 
 @Component({
   selector: 'app-map',
@@ -11,8 +13,7 @@ import {} from 'googlemaps';
 })
 export class MapComponent implements OnInit {
 
-  @ViewChild('gmap') mapElement: any;
-  // map: google.maps.Map;
+  @ViewChild('mapCanvas') mapElement: ElementRef;
 
   constructor(
     private manageService: ManageService,
@@ -21,6 +22,51 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.manageService.locService().subscribe((mapData: any) => {
+    
+      const mapEle = this.mapElement.nativeElement;
+      const options = {
+        center: new daum.maps.LatLng(33.450701, 126.570667),
+        level: 3
+      };
+      const map = new daum.maps.Map(mapEle, options);
+      const geocoder = new daum.maps.services.Geocoder();
+
+      mapData.forEach((markerData: any) => {
+      
+        geocoder.addressSearch(markerData.address, function(result, status) {
+
+          if (status === daum.maps.services.Status.OK) {
+
+              var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+              var marker = new daum.maps.Marker({
+                  map: map,
+                  position: coords,
+                  title: markerData.company,
+                  draggable: true,
+              });
+      
+              var infowindow = new daum.maps.InfoWindow({
+                  content: `
+                  <div style="width:150px;text-align:center;padding:6px 0;">
+                    ${markerData.company}
+                  </div>`
+              });
+
+              marker.addListener('click', () => {
+                infowindow.open(map, marker);
+              });
+
+              map.setCenter(coords);
+          } 
+        });
+
+      });
+
+    });
+
+    /*
     this.manageService.locService().subscribe((mapData: any) => {
       const mapEle = this.mapElement.nativeElement;
 
@@ -48,10 +94,10 @@ export class MapComponent implements OnInit {
         marker.addListener('click', () => {
           infoWindow.open(map, marker);
         });
-
       });
-
     });
+    */
+
   }
 
 
