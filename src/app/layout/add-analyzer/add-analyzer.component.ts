@@ -23,7 +23,7 @@ export class AddAnalyzerComponent implements OnInit {
 
   closeResult: string;
 
-  numbers: Array<number> = [1, 2, 3, 4];
+  numbers: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   types: object =
     {'pH' : 'ph' ,
@@ -57,14 +57,12 @@ export class AddAnalyzerComponent implements OnInit {
 
     this.analyzerForm =  this.formBuilder.group({
       company_id: ['', [Validators.required]],
-      channel_id: ['', [Validators.required]],
-      serial_code: ['', [Validators.required]],
-      sensors: this.formBuilder.array([ this.createSensor() ]),
+      analyzers: this.formBuilder.array([ this.createAnalyzer() ]),
     });
 
   }
 
-  createSensor(): FormGroup {
+  createAnalyzer(): FormGroup {
     return this.formBuilder.group({
       num : ['', [Validators.required]],
       name_tag: ['', [Validators.required]],
@@ -73,17 +71,17 @@ export class AddAnalyzerComponent implements OnInit {
 
 
   get formData() {
-    return this.analyzerForm.get('sensors') as FormArray;
+    return this.analyzerForm.get('analyzers') as FormArray;
   }
 
-  addSensor(): void {
-    if(this.formData.length <= 3) {
-      this.formData.push(this.createSensor());
+  addAnalyzer(): void {
+    if(this.formData.length <= 9) {
+      this.formData.push(this.createAnalyzer());
 
     }
   }
 
-  deleteSensor(index) {
+  deleteAnalyzer(index) {
     this.formData.removeAt(index);
   }
 
@@ -108,13 +106,6 @@ export class AddAnalyzerComponent implements OnInit {
     );
     this.modalService.dismissAll();
 
-  }
-
-  channelActive(event) {
-    this.manageService.getChannel(event).subscribe((res: any) => {
-      this.channels = res;
-    });
-    this.isDisabled = !this.isDisabled;
   }
 
   open(content) {

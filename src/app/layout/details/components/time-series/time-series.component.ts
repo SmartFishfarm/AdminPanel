@@ -32,7 +32,7 @@ export class TimeSeriesComponent implements OnInit {
 
   ngOnInit() {
     this.companyId = this.route.snapshot.paramMap.get('companyId');
-    this.manageService.getAllSensor(this.companyId).subscribe((analyzer: any) => {
+    this.manageService.getAnalyzer(this.companyId).subscribe((analyzer: any) => {
       this.analyzers = analyzer;
     });
   }

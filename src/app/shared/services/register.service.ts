@@ -25,6 +25,7 @@ export class RegisterService {
     .set('Authorization', 'Bearer ' + this.auth.getToken());
    }
 
+   
   addCompany(crendentials) {
     return this.http.post(`${this.url}/add-company`, crendentials, {headers: this.headers}).pipe(
       tap(res => {
@@ -46,36 +47,10 @@ export class RegisterService {
 
   /**
    * @memberof ManageService
-   * 채널추가 POST요청
-   */
-  addChannel(credentials) {
-    return this.http.post(`${this.url}/add-channel`, credentials, {headers: this.headers}).pipe(
-      tap(_ => {
-        return true;
-      }),
-      catchError(e => {
-        throw new Error(e);
-      })
-    );
-  }
-
-  /**
-   * @memberof ManageService
    * 계측기추가 POST요청
    */
   addAnalyzer(credentials) {
     return this.http.post(`${this.url}/add-analyzer`, credentials, {headers: this.headers}).pipe(
-      tap(_ => {
-        return true;
-      }),
-      catchError(e => {
-        throw new Error(e);
-      })
-    );
-  }
-
-  addSchedule(credentials) {
-    return this.http.post(`${this.url}/add-schedule`, credentials, {headers: this.headers}).pipe(
       tap(_ => {
         return true;
       }),

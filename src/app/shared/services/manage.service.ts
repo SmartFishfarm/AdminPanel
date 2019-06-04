@@ -102,78 +102,12 @@ export class ManageService {
   }
 
   /**
-   *  채널정보
-   * @returns
-   * @memberof ManageService
-   */
-  getChannel(company_id) {
-    // const params = new HttpParams().set('company', company);
-    // return this.http.get(`${this.url}/getchannel/`, {params: params}).pipe(
-    return this.http.get(`${this.url}/channel/` + company_id, { headers: this.headers }).pipe(
-      map((res: any) => {
-        return res;
-      }),
-      catchError(e => {
-        throw new Error(e);
-      })
-    );
-  }
-
-  /**
    *  계측기정보
    * @returns
    * @memberof ManageService
    */
   getAnalyzer(company_id) {
     return this.http.get(`${this.url}/analyzer/` + company_id, { headers: this.headers }).pipe(
-      map((res: any) => {
-        return res;
-      }),
-      catchError(e => {
-        throw new Error(e);
-      })
-    );
-  }
-
-  /**
-   *  센서정보
-   * @returns
-   * @memberof ManageService
-   */
-  getSensor(company_id, channel_id) {
-    return this.http.get(`${this.url}/sensor/` + company_id + '/' + channel_id, { headers: this.headers }).pipe(
-      map((res: any) => {
-        return res;
-      }),
-      catchError(e => {
-        throw new Error(e);
-      })
-    );
-  }
-
-/**
-   *  센서정보
-   * @returns
-   * @memberof ManageService
-   */
-  getAllSensor(company_id) {
-    return this.http.get(`${this.url}/sensor/` + company_id, { headers: this.headers }).pipe(
-      map((res: any) => {
-        return res;
-      }),
-      catchError(e => {
-        throw new Error(e);
-      })
-    );
-  }  
-
-  /**
-   *  일지정보
-   * @returns
-   * @memberof ManageService
-   */
-  getSchedule(company_id) {
-    return this.http.get(`${this.url}/schedule/${company_id}`, { headers: this.headers }).pipe(
       map((res: any) => {
         return res;
       }),
@@ -253,41 +187,12 @@ export class ManageService {
     );
   }
 
-  /**
-   * 채널수정
-   */
-  editChannel(channel_id, crendentials) {
-    return this.http.put(`${this.url}/channel/` + channel_id, crendentials, { headers: this.headers }).pipe(
-      map((res: any) => {
-        return res;
-      }),
-      catchError(e => {
-        this.showAlert();
-        throw new Error(e);
-      })
-    );
-  }
 
   /**
    * 계측기 수정
    */
   editAnalyzer(sensor_id, crendentials) {
     return this.http.put(`${this.url}/analyzer/${sensor_id}`, crendentials, { headers: this.headers }).pipe(
-      map((res: any) => {
-        return res;
-      }),
-      catchError(e => {
-        this.showAlert();
-        throw new Error(e);
-      })
-    );
-  }
-
-  /**
-   * 일자 수정
-   */
-  editSchedule(sensor_id, crendentials) {
-    return this.http.put(`${this.url}/schedule/${sensor_id}`, crendentials, { headers: this.headers }).pipe(
       map((res: any) => {
         return res;
       }),
@@ -329,41 +234,11 @@ export class ManageService {
   }
 
 
-   /**
-   * 채널삭제
-   */
-  deleteChannel(channel_id) {
-    return this.http.delete(`${this.url}/channel/` + channel_id, { headers: this.headers }).pipe(
-      tap(res => {
-        return res;
-      }),
-      catchError(e => {
-        this.showAlert();
-        throw new Error(e);
-      })
-    );
-  }
-
   /**
    * 계측기 삭제
    */
   deleteAnalyzer(sensor_id) {
     return this.http.delete(`${this.url}/analyzer/${sensor_id}`, { headers: this.headers }).pipe(
-      tap(res => {
-        return res;
-      }),
-      catchError(e => {
-        this.showAlert();
-        throw new Error(e);
-      })
-    );
-  }
-
-  /**
-   * 일지 삭제
-   */
-  deleteSchedule(sensor_id) {
-    return this.http.delete(`${this.url}/schedule/${sensor_id}`, { headers: this.headers }).pipe(
       tap(res => {
         return res;
       }),

@@ -4,124 +4,35 @@
     <div class="row">
         <div class="col-lg-6">
           <form [formGroup]="analyzerForm" (ngSubmit)="onSubmit()">
-              <hr>
-              <div class="form-group">
-                  <label><b>사업장</b></label>
-                  <select class="form-control" formControlName="company_id" (change)="channelActive($event.target.value)">
-                    <option label="-- 업체선택 --"></option>  
-                    <option *ngFor="let company of companies" [value]="company.id">{{ company.company }}</option>
-                  </select>
-              </div>
-              <hr />
-              <hr>
-              <div class="form-group">
-                  <label><b>채널</b></label>
-                  <!--
-                  <select class="form-control" formControlName="channel" [attr.disabled]="isDisabled ? null : ''">
-                  -->
-                  <select class="form-control" formControlName="channel_id">
-                    <option label="-- 채널선택 --"></option>
-                    <option *ngFor="let channel of channels" [value]="channel.id">{{ channel.ch_num }}</option>
-                  </select>
-                  <br />
-              </div>
-              <hr />
-              <hr>
-                <div class="form-group">
-                    <label><b>계측기</b></label>&nbsp;&nbsp;
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">시리얼코드</span>
-                        </div>
-                        <input type="text" class="form-control" formControlName="serial_code" placeholder="시리얼입력">
+            <hr>
+            <div class="form-group">
+                <label><b>사업장</b></label>
+                <select class="form-control" formControlName="company_id">
+                <option label="-- 업체선택 --"></option>  
+                <option *ngFor="let company of companies" [value]="company.id">{{ company.company }}</option>
+                </select>
+            </div>
+            <hr />
+            <hr>
+            <div class="form-group">
+                <label><b>계측기</b></label>&nbsp;&nbsp;
+                <div formArrayName="analyzers"
+                *ngFor="let analyzer of formData.controls; let i = index;">
+                    <div [formGroupName]="i" class="input-group-prepend">
+
+                        <select style='width:100px' class="form-control" formControlName="num">
+                            <option label="-- 번호 --"></option>
+                            <option *ngFor="let number of numbers" [value]="number">{{ number }}번</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        <input type="text" class="form-control" formControlName="name_tag" placeholder="측정명">
+                        <div (click)="deleteAnalyzer(i)" class="input-group-text"><i class="mdi mdi-close mdi-18px"></i></div>
                     </div>
                 </div>
-                <hr />
-                <hr>
-                <div class="form-group">
-                    <label><b>센서</b></label>&nbsp;&nbsp;
-                    <div formArrayName="sensors"
-                    *ngFor="let sensor of formData.controls; let i = index;">
-                        <div [formGroupName]="i" class="input-group-prepend">
-
-                            <select style='width:100px' class="form-control" formControlName="num">
-                                <option label="-- 번호 --"></option>
-                                <option *ngFor="let number of numbers" [value]="number">{{ number }}번</option>
-                            </select>
-                            &nbsp;&nbsp;
-                            <input type="text" class="form-control" formControlName="name_tag" placeholder="측정명">
-                            <div (click)="deleteSensor(i)" class="input-group-text"><i class="mdi mdi-close mdi-18px"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-
-              <!--
-              <div class="form-group">
-                  <label><b>계측기</b></label>&nbsp;&nbsp;
-                  <div formArrayName="analyzers"
-                  *ngFor="let analyzer of formData.controls; let i = index;">
-                      <div [formGroupName]="i">
-                        <div class="input-group-prepend">
-                            <input type="text" class="form-control" formControlName="serial_code" placeholder="시리얼코드">
-                            &nbsp;:&nbsp;
-                            <input type="number" min="1" style='width:70px' class="form-control" formControlName="num" placeholder="번호(순번)">                      
-                            &nbsp;:&nbsp;
-                            <input type="text" class="form-control" formControlName="name_tag" placeholder="측정명(표시이름)">
-                            
-                            <div (click)="deleteAnalyzer(i)" class="input-group-text"><i class="mdi mdi-close mdi-18px"></i></div>
-                            
-                        </div><br />
-                        <select class="form-control" formControlName="type" multiple>
-                            <option label="-- 센서타입 선택 --"></option>
-                            <option *ngFor="let type of types | keyvalue" [value]="type.value">{{ type.key }}</option>
-                        </select><br /><br />
-                      </div>
-                  </div>
-              </div>
-              -->
-              <!--
-              <div class="form-group">
-                    <label><b>계측기</b></label>&nbsp;&nbsp;
-                    <div formArrayName="analyzers"
-                    *ngFor="let analyzer of formData.controls; let i = index;">
-                        <div [formGroupName]="i">
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">번호(순번)</span>
-                                </div>
-                                <select class="form-control" formControlName="num">
-                                    <option label="-- 번호선택 --"></option>
-                                    <option *ngFor="let number of numbers" [value]="number">{{ number }}</option>
-                                </select>                  
-                            </div>
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">시리얼코드</span>
-                                </div>
-                                <input type="text" class="form-control" formControlName="serial_code" placeholder="시리얼입력">
-                            </div>
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">측정명(표시이름)</span>
-                                </div>
-                                <input type="text" class="form-control" formControlName="name_tag" placeholder="측정명입력">
-                            </div>
-
-                          <select class="form-control" formControlName="type" multiple>
-                              <option label="-- 센서타입 선택 --"></option>
-                              <option *ngFor="let type of types | keyvalue" [value]="type.value">{{ type.key }}</option>
-                          </select><br /><br />
-                        </div>
-                    </div>
-                </div>
-                -->
-
+            </div>
+            <hr />
               <div align="right">
-                
-                
-                <button type="button" class="btn btn-success btn-sm" (click)="addSensor()" style="margin-right:10px">추가</button>
-                
+                <button type="button" class="btn btn-success btn-sm" (click)="addAnalyzer()" style="margin-right:10px">추가</button>
                 <button type="button" class="btn btn-primary btn-md" (click)="open(content)" [disabled]="!analyzerForm.valid">제출</button>
                 <ng-template #content let-modal>
                     <div class="modal-header">

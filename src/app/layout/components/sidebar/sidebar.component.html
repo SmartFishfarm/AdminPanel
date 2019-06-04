@@ -1,0 +1,126 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+    <div class="list-group">
+        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <span>{{ 'Dashboard' | translate }}</span>
+        </a>
+        
+        <a [routerLink]="['/management']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-building"></i>&nbsp;
+            <span>{{ 'Company Manage' | translate }}</span>
+        </a>
+        <div class="nested-menu">
+                <a class="list-group-item" (click)="addExpandClass('add-pages')">
+                    <i class="fa fa-fw fa-plus"></i>&nbsp;
+                    <span>{{ 'Add' | translate }}</span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'add-pages'">
+                    <ul class="submenu">
+                        <li>
+                            <a [routerLink]="['/add/add-company']" [routerLinkActive]="['router-link-active']">
+                                <i class="fa fa-angle-right"></i>&nbsp;
+                                <span>{{ 'Add Company' | translate }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/add/add-analyzer']" [routerLinkActive]="['router-link-active']">
+                                <i class="fa fa-angle-right"></i>&nbsp;
+                                <span>{{ 'Add Analyzer' | translate }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+        </div>
+        <!--
+        <a [routerLink]="['/add']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-plus"></i>&nbsp;
+            <span>{{ 'Add' | translate }}</span>
+        </a>
+        -->
+        <a [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-users"></i>&nbsp;
+            <span>{{ 'Users Manage' | translate }}</span>
+        </a>
+        <a [routerLink]="['/type-info']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-info-circle"></i>&nbsp;
+            <span>{{ 'Sensor Info' | translate }}</span>
+        </a>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('service-pages')">
+                <i class="fa fa-tv"></i>&nbsp;
+                <span>{{ 'Service' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'service-pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/map']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-map"></i>&nbsp;
+                            <span>{{ 'Map' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/statistic']" [routerLinkActive]="['router-link-active']">
+                            <i class="fa fa-bar-chart-o"></i>&nbsp;
+                            <span>{{ 'Statistic' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <div class="header-fields">
+            <div class="nested-menu">
+                <a class="list-group-item" (click)="addExpandClass('languages')">
+                    <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'languages'">
+                    <ul class="submenu">
+                        <li>
+                            <a href="javascript:void(0)" (click)="changeLang('ko')">
+                                {{ 'Korean' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" (click)="changeLang('en')">
+                                {{ 'English' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+            <div class="nested-menu">
+                <a class="list-group-item" (click)="addExpandClass('profile')">
+                    <span><i class="fa fa-user"></i>&nbsp; {{ 'Admin' | translate }}</span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'profile'">
+                    <ul class="submenu">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span><i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' | translate }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/login']" (click)="onLoggedout()">
+                                <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+        <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
+        <span>{{ 'Collapse Sidebar' | translate }}</span>
+    </div>
+</nav>

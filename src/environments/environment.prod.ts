@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'http://fishtech.co.kr/admin',
+  url: 'http://fishtech.co.kr:3000/admin',
   
   msg_ok: '정상측정중입니다.',
   msg_network_error: '통신불량입니다.',

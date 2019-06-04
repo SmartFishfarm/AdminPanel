@@ -20,19 +20,13 @@ export class InformationComponent implements OnInit {
   public isCollapsed5: boolean;
 
   editForm: FormGroup;
-  editChannelForm: FormGroup;
   editAnalyzerForm: FormGroup;
-  editScheduleForm: FormGroup;
 
   company: any;
-  channels: any;
   analyzers: any;
-  schedules: any;
   companyId: string;
   comName = '';
   closeResult: string;
-
-  months: Array<number> = [1, 3, 6, 9, 12];
 
   constructor(
     private manageService: ManageService,
@@ -40,7 +34,6 @@ export class InformationComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private router: Router,
 
 
   ) { 
@@ -60,50 +53,25 @@ export class InformationComponent implements OnInit {
         this.comName = company.company;
       });
     });
-    this.manageService.getChannel(this.companyId).subscribe((channel: any) => {
-      this.channels = channel;
-    });
-    this.manageService.getAllSensor(this.companyId).subscribe((analyzer: any) => {
+    this.manageService.getAnalyzer(this.companyId).subscribe((analyzer: any) => {
       this.analyzers = analyzer;
-    });
-    this.manageService.getSchedule(this.companyId).subscribe((schedule: any) => {
-      this.schedules = schedule;
     });
 
     this.editForm = this.formBuilder.group({
       company: ['', [Validators.required]],
       address: [''],
-      latitude: [''],
-      longitude: ['']
-    });
-
-    this.editChannelForm = this.formBuilder.group({
-      ch_name: ['', [Validators.required]],
     });
 
     this.editAnalyzerForm = this.formBuilder.group({
       name_tag: ['', [Validators.required]],
     });
 
-    this.editScheduleForm = this.formBuilder.group({
-      rep_term: [''],
-      cor_term: [''],
-    });
-
-  }
-
-  channelList() {
-    this.isCollapsed2 = !this.isCollapsed2;
   }
 
   analyzerList() {
     this.isCollapsed3 = !this.isCollapsed3;
   }
 
-
-  scheduleList() {
-    this.isCollapsed4 = !this.isCollapsed4;
-  }
 
   onEdit(id) {
     if (this.editForm.invalid) {
@@ -118,22 +86,6 @@ export class InformationComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  onChannelEdit(id) {
-    if (this.editChannelForm.invalid) {
-      return;
-    }
-    this.manageService.editChannel(id, this.editChannelForm.value)
-    .subscribe((res: any) => {
-      this.toastr.success(res.success, '수정완료', {
-        timeOut: 2500
-      });
-      this.manageService.getChannel(this.companyId).subscribe((channel: any) => {
-        this.channels = channel;
-      });
-    });
-    this.modalService.dismissAll();
-  }
-
   onAnalyzerEdit(id) {
     if (this.editAnalyzerForm.invalid) {
       return;
@@ -143,28 +95,13 @@ export class InformationComponent implements OnInit {
       this.toastr.success(res.success, '수정완료', {
         timeOut: 2500
       });
-      this.manageService.getAllSensor(this.companyId).subscribe((analyzer: any) => {
+      this.manageService.getAnalyzer(this.companyId).subscribe((analyzer: any) => {
         this.analyzers = analyzer;
       });
     });
     this.modalService.dismissAll();
   }
 
-  onScheduleEdit(sensor_id) {
-    if (this.editScheduleForm.invalid) {
-      return;
-    }
-    this.manageService.editSchedule(sensor_id, this.editScheduleForm.value)
-    .subscribe((res: any) => {
-      this.toastr.success(res.success, '수정완료', {
-        timeOut: 2500
-      });
-      this.manageService.getSchedule(this.companyId).subscribe((schedule: any) => {
-        this.schedules = schedule;
-      });
-    });
-    this.modalService.dismissAll();
-  }
 
   onDeleteCompany() {
     this.manageService.deleteCompany(this.companyId)
@@ -182,40 +119,14 @@ export class InformationComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  onDeleteChannel(id) {
-    this.manageService.deleteChannel(id)
-    .subscribe((res: any) => {
-      this.toastr.success(res.success, '수정완료', {
-        timeOut: 2500
-      });
-      this.manageService.getChannel(this.companyId).subscribe((channel: any) => {
-        this.channels = channel;
-      });
-    });
-    this.modalService.dismissAll();
-  }
-
   onDeleteAnalyzer(id) {
     this.manageService.deleteAnalyzer(id)
     .subscribe((res: any) => {
       this.toastr.success(res.success, '수정완료', {
         timeOut: 2500
       });
-      this.manageService.getAllSensor(this.companyId).subscribe((analyzer: any) => {
+      this.manageService.getAnalyzer(this.companyId).subscribe((analyzer: any) => {
         this.analyzers = analyzer;
-      });
-    });
-    this.modalService.dismissAll();
-  }
-
-  onDeleteSchedule(id) {
-    this.manageService.deleteSchedule(id)
-    .subscribe((res: any) => {
-      this.toastr.success(res.success, '수정완료', {
-        timeOut: 2500
-      });
-      this.manageService.getSchedule(this.companyId).subscribe((schedule: any) => {
-        this.schedules = schedule;
       });
     });
     this.modalService.dismissAll();
